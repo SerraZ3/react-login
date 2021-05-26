@@ -1,0 +1,29 @@
+{
+  "name": "sequelize-aula-02",
+  "version": "1.0.0",
+  "description": "![Screenshot](https://raw.githubusercontent.com/Marcelo-Diament/sequelize-aula-01/main/backend/public/images/sequelize-aula-01.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "npm start --prefix frontend",
+    "server": "npm start --prefix backend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client-install": "npm install --prefix frontend",
+    "server-install": "npm install --prefix backend",
+    "install": "concurrently \"npm run client-install\" \"npm run server-install\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marcelo-Diament/sequelize-aula-02.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marcelo-Diament/sequelize-aula-02/issues"
+  },
+  "homepage": "https://github.com/Marcelo-Diament/sequelize-aula-02#readme",
+  "dependencies": {
+    "concurrently": "^6.1.0"
+  }
+}
