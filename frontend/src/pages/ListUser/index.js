@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import List from "../../components/users/List";
 import Main from "../templates/Main";
+import api from "../../services/api";
 
 const ListUser = () => {
   const [data, setData] = useState({ users: [] });
@@ -14,8 +14,7 @@ const ListUser = () => {
     // axios.get("/users").then((res) => setData(res.data));
     const getData = async () => {
       try {
-        const response = await axios.get("/users");
-        console.log(response);
+        const response = await api.get("/users");
         setData(response.data);
       } catch (error) {
         console.log(error);

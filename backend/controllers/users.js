@@ -2,6 +2,7 @@ const Sequelize = require("sequelize"),
   { Usuario } = require("../models"),
   { Op } = Sequelize;
 const bcrypt = require("../helpers/bcrypt");
+const jwt = require("../helpers/jwt");
 const orderResults = (orderByParam = "id_ASC") => {
   const orderParam = orderByParam.split("_")[0],
     orderDirection = orderByParam.split("_")[1];
@@ -9,6 +10,9 @@ const orderResults = (orderByParam = "id_ASC") => {
 };
 
 const controller = {
+  isAdmin: async (req, res) => {
+    res.json({ message: "É administrador" });
+  },
   list: async (req, res, next) => {
     const { page = 1, limit = 10, orderBy } = await req.query,
       order = orderResults(orderBy);
@@ -85,6 +89,24 @@ const controller = {
     } catch (error) {
       res.status(400).json({ message: "Algo de errado não está certo" });
     }
+  },
+  login: async (req, res, next) => {
+    const { email, senha } = req.body;
+    if (!email || !senha) res.status(400).json({ message: "Campos inválidos" });
+    let user = await Usuario.findOne({ where: { email } });
+    if (user === null)
+      res.status(400).json({ message: "Ops, usuário não encontrado" });
+    let verificaSenha = await bcrypt.compareHash(senha, user.senha);
+    if (!verificaSenha)
+      res.status(400).json({ message: "Ops, a senha e email não coincidem" });
+    let token = jwt.generateToken(user.id);
+    user = user.toJSON();
+    delete user.senha;
+    res.status(200).json({
+      message: "Login realizado com sucesso",
+      token,
+      user,
+    });
   },
   update: async (req, res, next) => {
     const { id } = req.params,

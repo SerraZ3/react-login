@@ -1,9 +1,20 @@
 import React, { useState } from "react";
-
+import axios from "axios";
+import { setToken } from "../../../helpers/session";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/users/login", { email, senha });
+      const token = response.data.token;
+
+      setToken(token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <section id="addUserSection" className="register-user">
       <form className="form" onSubmit={handleSubmit}>
